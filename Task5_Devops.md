@@ -692,3 +692,88 @@ spec:
         - -c
         - "while true; do echo 'Collecting logs from $(hostname)'; sleep 30; done"
 ```
+## Q25:List the Components of the ** Master node ** and what is the purpose of each component 
+
+* API Server (kube-apiserver)
+Purpose: Acts as the entry point to the Kubernetes cluster.
+
+Handles all REST requests (from kubectl, UI, or other components).
+
+Validates and processes API objects like Pods, Services, ConfigMaps, etc.
+
+It is the "front door" of the cluster.
+
+* etcd
+
+Purpose: A key-value store that stores all cluster data (desired state, config, secrets, etc.).
+
+Acts as the single source of truth for the cluster state.
+
+Highly available and consistent.
+
+* Controller Manager (kube-controller-manager)
+
+Purpose: Runs various controllers that ensure the cluster state matches the desired state.
+
+Examples of controllers:
+
+Node Controller → handles node failures.
+
+Replication Controller → ensures correct number of pods.
+
+Endpoints Controller → updates Service endpoints.
+
+Service Account & Token Controller → manages access.
+
+* Scheduler (kube-scheduler)
+Purpose: Decides on which node a new Pod should run.
+
+Considers resource requirements (CPU, memory), policies, affinity/anti-affinity rules, taints, and tolerations.
+
+It does not run pods itself, but assigns pods to nodes.
+
+## Q26: List  the Components of the ** Worker node ** and what is the purpose of each component
+
+* kubelet
+
+Purpose:
+
+An agent that runs on every worker node.
+
+Ensures that the containers described in the PodSpec are running.
+
+Communicates with the Kubernetes API Server on the Master node.
+
+Performs health checks on Pods and reports back to the control plane.
+
+* kube-proxy
+
+Purpose:
+
+Maintains network rules on nodes.
+
+Forwards traffic to the correct Pod across nodes.
+
+Implements Service abstraction for Pods, handling load balancing and networking (ClusterIP, NodePort, etc.).
+
+* Container Runtime (e.g., Docker, containerd, CRI-O)
+
+Purpose:
+
+Responsible for running the actual containers.
+
+Pulls container images from registries.
+
+Provides isolation for container processes.
+
+Interacts with kubelet to start/stop containers.
+
+* Pods (Application Containers)
+
+Purpose:
+
+Smallest deployable unit in Kubernetes.
+
+Encapsulates one or more containers, storage, and networking.
+
+Represents the actual application workload running on the worker node.
